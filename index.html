@@ -11,15 +11,23 @@
 
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="input-group">
-                    <input id="place-input" type="text" class="form-control" placeholder="Write something...">
+                    <input id="t-input" type="text" class="form-control" placeholder="Write something...">
                     <div class="input-group-append">
-                        <button id="place-btn" class="btn btn-primary" type="button">Translate</button>
+                        <button id="t-btn" class="btn btn-primary" type="button">Translate</button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="parameter-select">Select Parameter:</label>
+                    <select id="parameter-select" class="form-control">
+                        <option value="param1">Parameter 1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="output-box">Translated Text:</label>
                     <textarea id="output-box" class="form-control" rows="5" readonly></textarea>

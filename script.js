@@ -1,3 +1,7 @@
+const input = document.getElementById("t-input");
+const btn = document.getElementById("t-btn");
+const parameter = document.getElementById("parameter-select");
+
 const url = 'https://text-translator2.p.rapidapi.com/translate';
 const options = {
     method: 'POST',
@@ -18,9 +22,12 @@ async function test() {
         const response = await fetch(url, options);
         const result = await response.json();
         console.log(result);
+        console.log(parameter.value);
     } catch (error) {
         console.error(error);
     }
 }
 
-test();
+btn.addEventListener("click", ()=>{
+    test();
+})
