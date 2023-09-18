@@ -1,6 +1,8 @@
 const input = document.getElementById("t-input");
 const btn = document.getElementById("t-btn");
-const parameter = document.getElementById("parameter-select");
+const parameter = document.getElementById("parameter-select-from");
+const parameterTo = document.getElementById("parameter-select-to");
+const output = document.getElementById("output-box");
 
 const lenguages = [
     { "nombre": "Afrikaans", "abreviacion": "af" },
@@ -114,7 +116,7 @@ const lenguages = [
     { "nombre": "Zulu", "abreviacion": "zu" },
     { "nombre": "Hebrew", "abreviacion": "he" },
     { "nombre": "Chinese (Simplified)", "abreviacion": "zh" }
-    ];
+];
 
 const url = 'https://text-translator2.p.rapidapi.com/translate';
 const options = {
@@ -124,40 +126,59 @@ const options = {
         'X-RapidAPI-Key': '30ed671deamsh92cc402a0d75e4ep1a87d9jsn6ec76f5bd48d',
         'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com'
     },
-    body: new URLSearchParams({
-        source_language: 'en',
-        target_language: 'id',
-        text: 'Dog'
-    })
 };
 
-async function test() {
+async function test(text) {
+    options.body = setParameters(text, parameterTo.value, parameter.value);
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log(result);
+        output.innerHTML = result.data.translatedText;
+        console.log(parameterTo.value);
         console.log(parameter.value);
+        console.log(result);
     } catch (error) {
         console.error(error);
     }
 }
 
-function setParameters(text, target_language){
-    
+
+function setParameters(text, source_language, target_language) {
+    const body = new URLSearchParams({
+        source_language: source_language,
+        target_language: target_language,
+        text: text
+    });
+
+    return body;
 }
 
-function addLenguagesParameter(lenguages){
+function addLenguagesParameter(lenguages) {
     lenguages.forEach(element => {
-        const aux = document.createElement("option");
+        const aux1 = document.createElement("option");
+        const aux2 = document.createElement("option");
 
-        aux.value = element.abreviacion;
-        aux.innerHTML = element.nombre;
-        parameter.appendChild(aux);
+        aux1.value = element.abreviacion;
+        aux1.innerHTML = element.nombre;
+
+        aux2.value = element.abreviacion;
+        aux2.innerHTML = element.nombre;
+
+        parameter.appendChild(aux1);
+        parameterTo.appendChild(aux2);
     });
 }
 
 addLenguagesParameter(lenguages);
 
-btn.addEventListener("click", ()=>{
-    test();
+btn.addEventListener("click", () => {
+    if (parameterTo.value == parameter.value) alert("You must choose different languages.");
+    else test(input.value);
+})
+
+input.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        if (parameterTo.value == parameter.value) alert("You must choose different languages.");
+        else test(input.value);
+    }
 })
